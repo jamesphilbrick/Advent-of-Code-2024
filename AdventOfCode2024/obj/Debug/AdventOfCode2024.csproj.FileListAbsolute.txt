@@ -1,0 +1,7 @@
+C:\Users\james\Documents\Programming\Advent of Code 2024\AdventOfCode2024\bin\Debug\AdventOfCode2024.exe.config
+C:\Users\james\Documents\Programming\Advent of Code 2024\AdventOfCode2024\bin\Debug\AdventOfCode2024.exe
+C:\Users\james\Documents\Programming\Advent of Code 2024\AdventOfCode2024\bin\Debug\AdventOfCode2024.pdb
+C:\Users\james\Documents\Programming\Advent of Code 2024\AdventOfCode2024\obj\Debug\AdventOfCode2024.csproj.AssemblyReference.cache
+C:\Users\james\Documents\Programming\Advent of Code 2024\AdventOfCode2024\obj\Debug\AdventOfCode2024.csproj.CoreCompileInputs.cache
+C:\Users\james\Documents\Programming\Advent of Code 2024\AdventOfCode2024\obj\Debug\AdventOfCode2024.exe
+C:\Users\james\Documents\Programming\Advent of Code 2024\AdventOfCode2024\obj\Debug\AdventOfCode2024.pdb
