@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdventOfCode2024
@@ -107,6 +108,29 @@ namespace AdventOfCode2024
             // do the same checks as above, but increment a problem counter when a fail condition is met. If this counter <= 1, then the level is safe. 
         }
 
+        static void Day3()
+        {
+            // ----- Part 1 -----
+            string input = System.IO.File.ReadAllText("..\\..\\Problem Input Files\\Input 3-1.txt", System.Text.Encoding.UTF8);
+            string pattern = @"(mul\([0-9]+\,[0-9]+\))";
+            Regex regex = new Regex(pattern);
+            MatchCollection matches = regex.Matches(input);
+
+            int sumOfMultiples = 0;
+            foreach (Match match in matches)
+            {
+                string[] reducedValues = match.Value
+                    .Replace("mul(", "")
+                    .Replace(")", "")
+                    .Split(',');
+
+                sumOfMultiples += Int32.Parse(reducedValues[0]) * Int32.Parse(reducedValues[1]);
+            }
+
+            Console.WriteLine(sumOfMultiples.ToString());
+            Pause();
+        }
+
         static void Main(string[] args)
         {
             // Each day is it's own function; name takes the format Day<dayNumber>().
@@ -115,7 +139,7 @@ namespace AdventOfCode2024
             // Each input file follows the naming convention 'Input-<dayNumber>-<part>.txt'
 
             // Day1();
-            Day2();
+            Day3();
         }
     }
 }
