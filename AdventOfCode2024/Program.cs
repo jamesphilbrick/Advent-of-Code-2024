@@ -129,6 +129,38 @@ namespace AdventOfCode2024
 
             Console.WriteLine(sumOfMultiples.ToString());
             Pause();
+
+            // ----- Part 2 -----
+
+            // Adjust regex pattern to also match do() and don't()
+            pattern = @"(mul\([0-9]+\,[0-9]+\))|(do\(\))|(don\'t\(\))"; 
+            regex = new Regex(pattern);
+            matches = regex.Matches(input);
+            sumOfMultiples = 0;
+
+            // 1 for true, 0 for false. Can be used as a multiplyer
+            int isDo = 1; 
+
+            foreach (Match match in matches)
+            {
+                // if not a mul() instruction, set isDo accordingly.
+                if (!match.Value.Contains("mul"))
+                {
+                    isDo = match.Value == "do()"    ? 1 : 0;
+                    isDo = match.Value == "don't()" ? 0 : 1;
+                    continue;
+                }
+
+                string[] reducedValues = match.Value
+                    .Replace("mul(", "")
+                    .Replace(")", "")
+                    .Split(',');
+
+                sumOfMultiples += Int32.Parse(reducedValues[0]) * Int32.Parse(reducedValues[1]) * isDo;
+            }
+
+            Console.WriteLine(sumOfMultiples.ToString());
+            Pause();
         }
 
         static void Main(string[] args)
@@ -139,7 +171,8 @@ namespace AdventOfCode2024
             // Each input file follows the naming convention 'Input-<dayNumber>-<part>.txt'
 
             // Day1();
-            Day3();
+            // Day2();
+            // Day3();
         }
     }
 }
