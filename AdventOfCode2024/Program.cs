@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -163,6 +164,86 @@ namespace AdventOfCode2024
             Pause();
         }
 
+        static void Day4()
+        {
+            // Import file into a grid.
+            List<string> inputLines = System.IO.File.ReadAllLines("..\\..\\Problem Input Files\\Input 4-1.txt", System.Text.Encoding.UTF8).ToList();
+
+            // Get dimensions of import data; this assumes all rows are the same length (grid is of NxM size)
+            int rowCount = inputLines.Count;
+            int colCount = inputLines[0].Length;
+
+            // Import as list of lists (rows)
+            List<List<char>> horizontal = new List<List<char>>();
+            List<List<char>> vertical = new List<List<char>>();
+            List<List<char>> diagNE = new List<List<char>>();
+            List<List<char>> diagNW = new List<List<char>>();
+
+            for (int r = 0; r < (2 * rowCount - 1); r++)
+            {
+                if (r < rowCount)
+                {
+                    horizontal.Add(inputLines[r].ToCharArray().ToList());
+                    vertical.Add(inputLines[r].ToCharArray().ToList());
+                    diagNE.Add(inputLines[r].ToCharArray().ToList());
+                    diagNW.Add(inputLines[r].ToCharArray().ToList());
+                }
+                else
+                {
+                    List<char> zeroRowNE = Enumerable.Repeat('0', colCount).ToList();
+                    diagNE.Add(zeroRowNE);
+                    List<char> zeroRowNW = Enumerable.Repeat('0', colCount).ToList();
+                    diagNW.Add(zeroRowNW);
+                }
+            }
+
+            // diagNW
+            for (int r = 0; r < rowCount; r++)
+            {
+                for (int c = colCount - 1; c > r; c--)
+                {
+                    char temp = new char();
+                    temp = diagNW[r][c];
+                    diagNW[r][c] = diagNW[r + rowCount][c];
+                    diagNW[r + rowCount][c] = temp;
+                }
+            }
+
+            // diagNE
+            for (int r = 0; r < rowCount; r++)
+            {
+                for (int c = 0; c < colCount-r-1; c++)
+                {
+                    char temp = new char();
+                    temp = diagNE[r][c];
+                    diagNE[r][c] = diagNE[r + rowCount][c];
+                    diagNE[r + rowCount][c] = temp;
+                }
+            }
+
+            // vertical - rotated by 90 deg via transpose then reversal of each row
+            for (int r=0; r < rowCount; r++)
+            {
+                for (int c = 0; c < colCount; c++)
+                {
+                    // Transpose
+                    vertical[r][c] = horizontal[c][r];
+                }
+            }
+            for (int r = 0; r < rowCount; r++)
+            {
+                // Reversal
+                vertical[r].Reverse();
+            }
+
+            string pattern = @"(XMAS)";
+            Regex regex = new Regex(pattern);
+            MatchCollection horizontalMatches = regex.Matches(HelperFunctions.CharGridToString(horizontal));
+            Console.WriteLine(horizontalMatches.Count);
+
+            Pause();
+        }
+
         static void Main(string[] args)
         {
             // Each day is it's own function; name takes the format Day<dayNumber>().
@@ -173,6 +254,7 @@ namespace AdventOfCode2024
             // Day1();
             // Day2();
             // Day3();
+            Day4();
         }
     }
 }
