@@ -7,7 +7,7 @@
       "RelativeMoniker": "D:0:0:{C695F8F0-AE31-4C90-856C-7B50585E5A9A}|AdventOfCode2024.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C695F8F0-AE31-4C90-856C-7B50585E5A9A}|AdventOfCode2024.csproj|c:\\users\\james\\documents\\programming\\advent of code 2024\\adventofcode2024\\helperfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{C695F8F0-AE31-4C90-856C-7B50585E5A9A}|AdventOfCode2024.csproj|C:\\Users\\james\\Documents\\Programming\\Advent of Code 2024\\AdventOfCode2024\\helperfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C695F8F0-AE31-4C90-856C-7B50585E5A9A}|AdventOfCode2024.csproj|solutionrelative:helperfunctions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -34,8 +34,7 @@
               "RelativeToolTip": "HelperFunctions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-07T17:56:00.409Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-07T17:56:00.409Z"
             },
             {
               "$type": "Document",
@@ -45,7 +44,7 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\james\\Documents\\Programming\\Advent of Code 2024\\AdventOfCode2024\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAANUAAAAAAAAAAAAAAOwAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAC0BAAAAAAAAAAAUwEIBAABsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-03T22:32:26.584Z",
               "EditorCaption": ""

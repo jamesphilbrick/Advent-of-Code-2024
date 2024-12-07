@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AdventOfCode2024
 {
@@ -166,6 +168,8 @@ namespace AdventOfCode2024
 
         static void Day4()
         {
+            // 2549
+
             // Import file into a grid.
             List<string> inputLines = System.IO.File.ReadAllLines("..\\..\\Problem Input Files\\Input 4-1.txt", System.Text.Encoding.UTF8).ToList();
 
@@ -175,9 +179,9 @@ namespace AdventOfCode2024
 
             // Import as list of lists (rows)
             List<List<char>> horizontal = new List<List<char>>();
-            List<List<char>> vertical = new List<List<char>>();
-            List<List<char>> diagNE = new List<List<char>>();
-            List<List<char>> diagNW = new List<List<char>>();
+            List<List<char>> vertical   = new List<List<char>>();
+            List<List<char>> diagNE     = new List<List<char>>();
+            List<List<char>> diagNW     = new List<List<char>>();
 
             for (int r = 0; r < (2 * rowCount - 1); r++)
             {
@@ -191,8 +195,8 @@ namespace AdventOfCode2024
                 else
                 {
                     List<char> zeroRowNE = Enumerable.Repeat('0', colCount).ToList();
-                    diagNE.Add(zeroRowNE);
                     List<char> zeroRowNW = Enumerable.Repeat('0', colCount).ToList();
+                    diagNE.Add(zeroRowNE);
                     diagNW.Add(zeroRowNW);
                 }
             }
@@ -236,11 +240,106 @@ namespace AdventOfCode2024
                 vertical[r].Reverse();
             }
 
-            string pattern = @"(XMAS)";
+            string pattern = @"((XMAS)|(SAMX))";
             Regex regex = new Regex(pattern);
             MatchCollection horizontalMatches = regex.Matches(HelperFunctions.CharGridToString(horizontal));
-            Console.WriteLine(horizontalMatches.Count);
+            MatchCollection verticalMatches   = regex.Matches(HelperFunctions.CharGridToString(vertical));
+            MatchCollection diagNEMatches     = regex.Matches(HelperFunctions.CharGridToString(diagNE));
+            MatchCollection diagNWMatches     = regex.Matches(HelperFunctions.CharGridToString(diagNW));
+            //Console.WriteLine(
+            //    horizontalMatches.Count + 
+            //    verticalMatches.Count + 
+            //    diagNEMatches.Count + 
+            //    diagNWMatches.Count);
 
+            // The above solution is over complicated, and doesn't give the correct answer anyway...
+            // Likely better to do some kernal thing. 
+
+            // Covert the input rows to a 2d array
+            char[,] grid = new char[rowCount, colCount];
+
+            for (int r = 0; r < rowCount; r++)
+            {
+                for (int c = 0;c < colCount; c++)
+                {
+                    grid[r,c] = inputLines[r].ToCharArray().ElementAt(c);
+                }
+            }
+
+            // loop over each element and check for surrounding word matches. I'm sure there are MUCH better and less labourious ways of doing this...
+            // it's also a lot slower than my above approach. 
+            int totalMatches = 0;
+
+            for (int r = 0;  r < rowCount; r++)
+            {
+                for (int c = 0; c < colCount; c++)
+                {
+                    try
+                    {
+                        char[] chars = new char[4];
+                        chars[0] = grid[r, c]; chars[1] = grid[r - 1, c - 1]; chars[2] = grid[r - 2, c - 2]; chars[3] = grid[r - 3, c - 3];
+                        if (new string(chars) == "XMAS" || new string(chars) == "SAMX") { totalMatches++; }
+                    }
+                    catch (Exception e) { }
+
+                    try
+                    {
+                        char[] chars = new char[4];
+                        chars[0] = grid[r, c]; chars[1] = grid[r, c - 1]; chars[2] = grid[r, c - 2]; chars[3] = grid[r, c - 3];
+                        if (new string(chars) == "XMAS" || new string(chars) == "SAMX") { totalMatches++; }
+                    }
+                    catch (Exception e) { }
+
+                    try
+                    {
+                        char[] chars = new char[4];
+                        chars[0] = grid[r, c]; chars[1] = grid[r + 1, c - 1]; chars[2] = grid[r + 2, c - 2]; chars[3] = grid[r + 3, c - 3];
+                        if (new string(chars) == "XMAS" || new string(chars) == "SAMX") { totalMatches++; }
+                    }
+                    catch (Exception e) { }
+
+                    try
+                    {
+                        char[] chars = new char[4];
+                        chars[0] = grid[r, c]; chars[1] = grid[r + 1, c]; chars[2] = grid[r + 2, c]; chars[3] = grid[r + 3, c];
+                        if (new string(chars) == "XMAS" || new string(chars) == "SAMX") { totalMatches++; }
+                    }
+                    catch (Exception e) { }
+                }
+            }
+            Console.WriteLine(totalMatches.ToString()); // this is also wrong... 
+
+
+            // --- Part 2 ---
+            totalMatches = 0;
+            for (int r = 0; r < rowCount; r++)
+            {
+                for (int c = 0; c < colCount; c++)
+                {
+                    int tempMatches = 0;
+                    try
+                    {
+                        char[] chars1 = new char[3];
+                        chars1[0] = grid[r, c]; chars1[1] = grid[r - 1, c - 1]; chars1[2] = grid[r + 1, c + 1];
+                        if (new string(chars1) == "MAS" || new string(chars1) == "SAM") { tempMatches++; }
+                    }
+                    catch (Exception e) { }
+
+                    try
+                    {
+                        char[] chars2 = new char[3];
+                        chars2[0] = grid[r, c]; chars2[1] = grid[r + 1, c - 1]; chars2[2] = grid[r - 1, c + 1];
+                        if (new string(chars2) == "MAS" || new string(chars2) == "SAM") { tempMatches++; }
+                    }
+                    catch (Exception e) { }
+
+                    if (tempMatches == 2)
+                    {
+                        totalMatches++;
+                    }
+                }
+            }
+            Console.WriteLine(totalMatches.ToString());
             Pause();
         }
 
