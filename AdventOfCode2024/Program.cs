@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -343,6 +344,61 @@ namespace AdventOfCode2024
             Pause();
         }
 
+        static void Day5()
+        {
+            // ----- Part 1 -----
+            List<string> input = System.IO.File.ReadAllLines("..\\..\\Problem Input Files\\Input 5-1.txt", System.Text.Encoding.UTF8).ToList();
+            List<string[]> rules = new List<string[]>();
+            List<string[]> updates = new List<string[]>();
+
+            int runningTotal = 0;
+            int runningTotal2 = 0;
+
+            foreach (string line in input)
+            {
+                if (line.Contains("|"))
+                { 
+                    rules.Add(line.Split('|')); 
+                }
+                else if ( line.Contains(","))
+                {
+                    updates.Add(line.Split(','));
+                }
+            }
+
+            foreach (string[] update in updates)
+            {
+                bool violated = false;
+                foreach (string[] rule in rules)
+                {
+                    if (update.Contains(rule[0]) && update.Contains(rule[1]))
+                    {
+                        if (Array.IndexOf(update, rule[0]) > Array.IndexOf(update, rule[1]))
+                        {
+                            violated = true;
+                        }
+                    }
+                }
+                if (!violated)
+                {
+                    runningTotal += Int32.Parse(update[update.Length / 2]);
+                }
+
+                else // violated
+                {
+                    // reorder in accordance to rules
+                    continue;
+
+                    // add middle value to running total 2
+                }
+            }
+            Console.WriteLine(runningTotal.ToString());
+            Pause();
+
+            // ----- Part 1 -----
+            // would be more efficient to 
+        }
+
         static void Main(string[] args)
         {
             // Each day is it's own function; name takes the format Day<dayNumber>().
@@ -353,7 +409,8 @@ namespace AdventOfCode2024
             // Day1();
             // Day2();
             // Day3();
-            Day4();
+            // Day4();
+            Day5();
         }
     }
 }
