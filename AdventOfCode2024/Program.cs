@@ -387,16 +387,30 @@ namespace AdventOfCode2024
                 else // violated
                 {
                     // reorder in accordance to rules
-                    continue;
+                    foreach (string[] rule in rules)
+                    {
+                        if (update.Contains(rule[0]) && update.Contains(rule[1]))
+                        {
+                            int page1Index = Array.IndexOf(update, rule[0]);
+                            int page2Index = Array.IndexOf(update, rule[1]);
+
+                            if (page1Index > page2Index)
+                            {
+                                // swap values
+                                string temp = update[page1Index];
+                                update[page1Index] = update[page2Index];
+                                update[page2Index] = temp;
+                            }
+                        }
+                    }
 
                     // add middle value to running total 2
+                    runningTotal2 += Int32.Parse(update[update.Length / 2]);
                 }
             }
             Console.WriteLine(runningTotal.ToString());
+            Console.WriteLine(runningTotal2.ToString());
             Pause();
-
-            // ----- Part 1 -----
-            // would be more efficient to 
         }
 
         static void Main(string[] args)
