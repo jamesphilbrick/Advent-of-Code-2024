@@ -413,6 +413,97 @@ namespace AdventOfCode2024
             Pause();
         }
 
+        static void Day6()
+        {
+            List<string> input = System.IO.File.ReadAllLines("..\\..\\Problem Input Files\\Input 6-1.txt", System.Text.Encoding.UTF8).ToList();
+            int[] startingCoords = new int[2];
+            char[,] grid = new char[input.Count, input[0].Length];
+            for (int r = 0; r < input.Count; r++)
+            {
+                for (int c = 0; c < input[r].Length; c++)
+                {
+                    grid[r, c] = input[r][c];
+                    if (grid[r, c] == '^')
+                    {
+                        startingCoords[0] = r; 
+                        startingCoords[1] = c;
+                    }
+                }
+            }
+
+            bool guardInGrid = true;
+            int visitedPositionCount = 0;
+            char facingDirection = 'N'; // N, E, S, W
+            int[] currentPosition = startingCoords;
+            int[] nextPosition = new int[2];
+
+            while (guardInGrid)
+            {
+                switch (facingDirection)
+                {
+                    case 'N':
+                        nextPosition[0] = currentPosition[0] - 1;
+                        nextPosition[1] = currentPosition[1];
+                        break;
+                    case 'E':
+                        nextPosition[0] = currentPosition[0];
+                        nextPosition[1] = currentPosition[1] + 1;
+                        break;
+                    case 'S':
+                        nextPosition[0] = currentPosition[0] + 1;
+                        nextPosition[1] = currentPosition[1];
+                        break;
+                    case 'W':
+                        nextPosition[0] = currentPosition[0];
+                        nextPosition[1] = currentPosition[1] - 1;
+                        break;
+                }
+
+                // end if guard moves out of bounds
+                if (nextPosition[0] > grid.GetLength(0) ||
+                    nextPosition[1] > grid.GetLength(1) ||
+                    nextPosition[0] < 0 ||
+                    nextPosition[1] < 0)
+                {
+                    guardInGrid = false;
+                }
+
+                // if obstacle in next position
+                if (grid[nextPosition[0], nextPosition[1]] == '#')
+                {
+                    // change direction
+                    switch (facingDirection)
+                    {
+                        case 'N':
+                            facingDirection = 'E';
+                            break;
+                        case 'E':
+                            facingDirection = 'S';
+                            break;
+                        case 'S':
+                            facingDirection = 'W';
+                            break;
+                        case 'W':
+                            facingDirection = 'N';
+                            break;
+                    }
+                }
+                else
+                {
+                    // move
+                    if (grid[currentPosition[0], currentPosition[1]] != 'X')
+                    {
+                        visitedPositionCount++;
+                        grid[currentPosition[0], currentPosition[1]] = 'X';
+                    }
+                    currentPosition = nextPosition;
+                }
+            }
+
+            Console.WriteLine(visitedPositionCount.ToString());
+            Pause();
+        }
+
         static void Main(string[] args)
         {
             // Each day is it's own function; name takes the format Day<dayNumber>().
@@ -424,7 +515,9 @@ namespace AdventOfCode2024
             // Day2();
             // Day3();
             // Day4();
-            Day5();
+            // Day5();
+            Day6();
+
         }
     }
 }
