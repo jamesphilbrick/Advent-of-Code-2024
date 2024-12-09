@@ -432,7 +432,7 @@ namespace AdventOfCode2024
             }
 
             bool guardInGrid = true;
-            int visitedPositionCount = 0;
+            int visitedPositionCount = 1;
             char facingDirection = 'N'; // N, E, S, W
             int[] currentPosition = startingCoords;
             int[] nextPosition = new int[2];
@@ -460,12 +460,13 @@ namespace AdventOfCode2024
                 }
 
                 // end if guard moves out of bounds
-                if (nextPosition[0] > grid.GetLength(0) ||
-                    nextPosition[1] > grid.GetLength(1) ||
+                if (nextPosition[0] > grid.GetLength(0) - 1 ||
+                    nextPosition[1] > grid.GetLength(1) - 1 ||
                     nextPosition[0] < 0 ||
                     nextPosition[1] < 0)
                 {
                     guardInGrid = false;
+                    break;
                 }
 
                 // if obstacle in next position
@@ -496,8 +497,11 @@ namespace AdventOfCode2024
                         visitedPositionCount++;
                         grid[currentPosition[0], currentPosition[1]] = 'X';
                     }
-                    currentPosition = nextPosition;
+                    currentPosition[0] = nextPosition[0];
+                    currentPosition[1] = nextPosition[1];
                 }
+
+                //HelperFunctions.DisplayGrid(grid);
             }
 
             Console.WriteLine(visitedPositionCount.ToString());
