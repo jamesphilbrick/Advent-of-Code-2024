@@ -1,15 +1,8 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace AdventOfCode2024
 {
@@ -508,6 +501,57 @@ namespace AdventOfCode2024
             Pause();
         }
 
+        static void Day7()
+        {
+            List<string> input = System.IO.File.ReadAllLines("..\\..\\Problem Input Files\\Input 7-0.txt", System.Text.Encoding.UTF8).ToList();
+            long totalSum = 0;
+
+            foreach (string line in input)
+            {
+                List<int> terms = line.Split(' ').Where(x => !x.Contains(':')).Select(int.Parse).ToList();
+                long result = long.Parse(line.Split(':')[0]);
+                bool equationSolved = false;
+
+                while (!equationSolved)
+                {
+                    int binaryInt = 0;
+                    for (int i = 0; i < terms.Count; i++)
+                    {
+                        string binaryRepresentation = Convert.ToString(binaryInt, 2);
+                        long runningTotal = terms[0];
+
+                        // calculate the result
+                        for (int j = 0; j < binaryRepresentation.Length; j++)
+                        {
+                            if (binaryRepresentation[j] == '0')
+                            {
+                                runningTotal += terms[j+1];
+                            }
+                            else
+                            {
+                                runningTotal *= terms[j+1];
+                            }
+                        }
+
+                        if (runningTotal == result)
+                        {
+                            equationSolved = true;
+                            totalSum += result;
+                            break;
+                        }
+                        else if (binaryRepresentation.Length == terms.Count - 1)
+                        {
+                            equationSolved = true;
+                            break;
+                        }
+                        binaryInt += 1;
+                    }
+                }
+            }
+            Console.WriteLine(totalSum);
+            Pause();
+        }
+
         static void Main(string[] args)
         {
             // Each day is it's own function; name takes the format Day<dayNumber>().
@@ -520,8 +564,8 @@ namespace AdventOfCode2024
             // Day3();
             // Day4();
             // Day5();
-            Day6();
-
+            // Day6();
+            Day7();
         }
     }
 }
